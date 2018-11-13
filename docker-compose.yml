@@ -32,7 +32,7 @@ services:
       labels:
         traefik.docker.network: traefik
         traefik.backend: ghost
-        traefik.port: 80
+        traefik.port: 2368
         traefik.frontend.rule: Host:ghost.homelab.business
         traefik.frontend.entryPoints: http
       placement:
