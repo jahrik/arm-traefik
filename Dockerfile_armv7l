@@ -1,4 +1,4 @@
-FROM jahrik/arm-gosu-tini
+FROM jahrik/arm-gosu-tini:armv7l
 
 ADD https://github.com/containous/traefik/releases/download/v1.7.4/traefik_linux-arm /traefik
 RUN apt-get update \
