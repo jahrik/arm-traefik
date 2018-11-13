@@ -1,0 +1,3 @@
+FROM arm64v8/traefik
+
+COPY traefik.toml /etc/traefik/traefik.toml
