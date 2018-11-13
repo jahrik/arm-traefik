@@ -19,7 +19,8 @@ endpoint = "tcp://127.0.0.1:2375"
 # Optional
 # Default: ""
 #
-domain = "docker.localhost"
+# domain = "docker.localhost"
+domain = "homelab.business"
 
 # Enable watch docker changes.
 #
