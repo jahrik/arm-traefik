@@ -10,6 +10,8 @@ services:
     ports:
       - 8082:8080
       - 80:80
+    networks:
+      - traefik-net
     deploy:
       mode: replicated
       replicas: 1
@@ -22,7 +24,13 @@ services:
     image: arm64v8/ghost
     ports:
       - 8083:2368
+    networks:
+      - traefik-net
     deploy:
       replicas: 1
       labels:
         traefik.docker.network: traefik
+
+networks:
+  traefik-net:
+    driver: overlay
