@@ -18,8 +18,11 @@ services:
           - node.role == manager
           - node.labels.arch == aarch64
 
-  whoami:
+  ghost:
+    image: arm64v8/ghost
+    ports:
+      - 8083:2368
     deploy:
-      replicas: 3
+      replicas: 1
       labels:
         traefik.docker.network: traefik
