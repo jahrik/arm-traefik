@@ -35,6 +35,7 @@ services:
 networks:
   traefik:
     driver: overlay
+    name: traefik
 
 # version: "3"
 # services:
