@@ -251,7 +251,7 @@ network = "traefik"
 # Optional
 # Default: true
 #
-exposedByDefault = false
+exposedByDefault = true
 
 # Enable docker TLS connection.
 #
