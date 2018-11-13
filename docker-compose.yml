@@ -17,3 +17,9 @@ services:
         constraints:
           - node.role == manager
           - node.labels.arch == aarch64
+
+  whoami:
+    deploy:
+      replicas: 3
+      labels:
+        traefik.docker.network: traefik
