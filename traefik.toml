@@ -199,7 +199,7 @@ entryPoint = "https"
 # Required
 # Default: "unix:///var/run/docker.sock"
 #
-endpoint = "tcp://rocks:2375"
+endpoint = "unix:///var/run/docker.sock"
 
 # Default base domain used for the frontend rules.
 # Can be overridden by setting the "traefik.domain" label on a services.
