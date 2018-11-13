@@ -31,11 +31,15 @@ services:
       replicas: 1
       labels:
         traefik.docker.network: traefik
+        traefik.frontend.rule: Host:ghost.homelab.business
+      placement:
+        constraints:
+          - node.labels.arch == aarch64
 
 networks:
   traefik:
-    driver: overlay
     name: traefik
+    driver: overlay
 
 # version: "3"
 # services:
