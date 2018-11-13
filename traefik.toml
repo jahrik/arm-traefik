@@ -104,14 +104,13 @@
   address = ":80"
 
 ######################################
-
-  [entryPoints.https]
-  address = ":443"
-    [entryPoints.https.tls]
-
-######################################
 # ACME (Let's Encrypt) configuration #
 ######################################
+
+#   [entryPoints.https]
+#   address = ":443"
+#     [entryPoints.https.tls]
+
 # Sample entrypoint configuration when using ACME
 #
 # [entryPoints]
@@ -123,13 +122,13 @@
 #
 # Optional
 #
-[acme]
+# [acme]
 
 # Email address used for registration
 #
 # Required
 #
-email = "jahrik@gmail.com"
+# email = "jahrik@gmail.com"
 
 # File used for certificates storage.
 # WARNING, if you use Traefik in Docker, you have 2 options:
@@ -142,14 +141,14 @@ email = "jahrik@gmail.com"
 #
 # Required
 #
-storageFile = "/etc/traefik/acme/acme.json"
+# storageFile = "/etc/traefik/acme/acme.json"
 
 # Entrypoint to proxy acme challenge to.
 # WARNING, must point to an entrypoint on port 443
 #
 # Required
 #
-entryPoint = "https"
+# entryPoint = "https"
 
 # Enable on demand certificate. This will request a certificate from Let's Encrypt during the first TLS handshake for a hostname that does not yet have a certificate.
 # WARNING, TLS handshakes will be slow when requesting a hostname certificate for the first time, this can leads to DoS attacks.
@@ -183,8 +182,8 @@ entryPoint = "https"
 #   main = "local3.com"
 # [[acme.domains]]
 #   main = "local4.com"
-[[acme.domains]]
-   main = "homelab.business"
+# [[acme.domains]]
+#   main = "homelab.business"
 
 ################################################################
 # Docker Swarm Mode Provider
