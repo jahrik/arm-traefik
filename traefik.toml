@@ -48,6 +48,22 @@
 #
 # defaultEntryPoints = ["http", "https"]
 
+#######################
+# Retry configuration #
+#######################
+# Enable retry sending request if network error
+#
+# Optional
+#
+[retry]
+
+# Number of attempts
+#
+# Optional
+# Default: (number servers in backend) -1
+#
+# attempts = 3
+
 ##########################
 # Entrypoints definition #
 ##########################
@@ -87,31 +103,22 @@
   [entryPoints.http]
   address = ":80"
 
-#######################
-# Retry configuration #
-#######################
-# Enable retry sending request if network error
-#
-# Optional
-#
-[retry]
+######################################
 
-# Number of attempts
-#
-# Optional
-# Default: (number servers in backend) -1
-#
-# attempts = 3
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
 
 ######################################
 # ACME (Let's Encrypt) configuration #
 ######################################
 # Sample entrypoint configuration when using ACME
-[entryPoints]
-  [entryPoints.https]
-  address = ":443"
-    [entryPoints.https.tls]
-
+#
+# [entryPoints]
+#   [entryPoints.https]
+#   address = ":443"
+#     [entryPoints.https.tls]
+#
 # Enable ACME (Let's Encrypt): automatic SSL
 #
 # Optional
