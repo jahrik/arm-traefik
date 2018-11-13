@@ -35,7 +35,7 @@ services:
         traefik.port: 2368
         traefik.frontend.rule: Host:ghost.homelab.business
         traefik.frontend.entryPoints: http
-        traefik.backend.loadbalancer.swarm: true
+        # traefik.backend.loadbalancer.swarm: true
       placement:
         constraints:
           - node.labels.arch == aarch64
