@@ -9,4 +9,7 @@ build:
 push:
 	@docker push ${IMAGE}:$(TAG)
 
-.PHONY: all build push
+deploy:
+	@docker stack deploy -c docker-compose.yml traefik
+
+.PHONY: all build push deploy
