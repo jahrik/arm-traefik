@@ -36,7 +36,6 @@ services:
         traefik.backend: ghost
         traefik.port: 2368
         traefik.frontend.rule: Host:ghost.homelab.business
-        traefik.frontend.entryPoints: http
       placement:
         constraints:
           - node.labels.arch == aarch64
