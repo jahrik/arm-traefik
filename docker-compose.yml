@@ -31,7 +31,7 @@ services:
     deploy:
       replicas: 2
       labels:
-        traefik.enable: true
+        traefik.enable: 1
         traefik.docker.network: traefik
         traefik.backend: ghost
         traefik.port: 2368
