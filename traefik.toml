@@ -1,264 +1,31 @@
-# traefik.toml
-########################
-# Global configuration #
-########################
-
-# Traefik logs file
-# If not defined, logs to stdout
-#
-# Optional
-#
-# traefikLogsFile = "log/traefik.log"
-
-# Access logs file
-#
-# Optional
-#
-# accessLogsFile = "log/access.log"
-
-# Log level
-#
-# Optional
-# Default: "ERROR"
-#
+debug = true
 logLevel = "DEBUG"
 
-# Backends throttle duration: minimum duration between 2 events from providers
-# before applying a new configuration. It avoids unnecessary reloads if multiples events
-# are sent in a short amount of time.
-#
-# Optional
-# Default: "2s"
-#
-# ProvidersThrottleDuration = "5s"
-
-# If non-zero, controls the maximum idle (keep-alive) to keep per-host.  If zero, DefaultMaxIdleConnsPerHost is used.
-# If you encounter 'too many open files' errors, you can either change this value, or change `ulimit` value.
-#
-# Optional
-# Default: http.DefaultMaxIdleConnsPerHost
-#
-# MaxIdleConnsPerHost = 200
-
-# Entrypoints to be used by frontends that do not specify any entrypoint.
-# Each frontend can specify its own entrypoints.
-#
-# Optional
-# Default: ["http"]
-#
-# defaultEntryPoints = ["http", "https"]
-
-#######################
-# Retry configuration #
-#######################
-# Enable retry sending request if network error
-#
-# Optional
-#
-[retry]
-
-# Number of attempts
-#
-# Optional
-# Default: (number servers in backend) -1
-#
-# attempts = 3
-
-##########################
-# Entrypoints definition #
-##########################
-# Entrypoints definition
-#
-# Optional
-# Default:
-# [entryPoints]
-#   [entryPoints.http]
-#   address = ":80"
-#
-# To redirect an http entrypoint to an https entrypoint (with SNI support):
-# [entryPoints]
-#   [entryPoints.http]
-#   address = ":80"
-#     [entryPoints.http.redirect]
-#       entryPoint = "https"
-#   [entryPoints.https]
-#   address = ":443"
-#     [entryPoints.https.tls]
-#       [[entryPoints.https.tls.certificates]]
-#       CertFile = "integration/fixtures/https/snitest.com.cert"
-#       KeyFile = "integration/fixtures/https/snitest.com.key"
-#       [[entryPoints.https.tls.certificates]]
-#       CertFile = "integration/fixtures/https/snitest.org.cert"
-#       KeyFile = "integration/fixtures/https/snitest.org.key"
-#
-# To redirect an entrypoint rewriting the URL:
-# [entryPoints]
-#   [entryPoints.http]
-#   address = ":80"
-#     [entryPoints.http.redirect]
-#       regex = "^http://localhost/(.*)"
-#       replacement = "http://mydomain/$1"
+defaultEntryPoints = ["https","http"]
 
 [entryPoints]
   [entryPoints.http]
   address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
 
-######################################
-# ACME (Let's Encrypt) configuration #
-######################################
+[retry]
 
-#   [entryPoints.https]
-#   address = ":443"
-#     [entryPoints.https.tls]
-
-# Sample entrypoint configuration when using ACME
-#
-# [entryPoints]
-#   [entryPoints.https]
-#   address = ":443"
-#     [entryPoints.https.tls]
-#
-# Enable ACME (Let's Encrypt): automatic SSL
-#
-# Optional
-#
-# [acme]
-
-# Email address used for registration
-#
-# Required
-#
-# email = "jahrik@gmail.com"
-
-# File used for certificates storage.
-# WARNING, if you use Traefik in Docker, you have 2 options:
-#  - create a file on your host and mount it has a volume
-#      storageFile = "acme.json"
-#      $ docker run -v "/my/host/acme.json:acme.json" traefik
-#  - mount the folder containing the file has a volume
-#      storageFile = "/etc/traefik/acme/acme.json"
-#      $ docker run -v "/my/host/acme:/etc/traefik/acme" traefik
-#
-# Required
-#
-# storageFile = "/etc/traefik/acme/acme.json"
-
-# Entrypoint to proxy acme challenge to.
-# WARNING, must point to an entrypoint on port 443
-#
-# Required
-#
-# entryPoint = "https"
-
-# Enable on demand certificate. This will request a certificate from Let's Encrypt during the first TLS handshake for a hostname that does not yet have a certificate.
-# WARNING, TLS handshakes will be slow when requesting a hostname certificate for the first time, this can leads to DoS attacks.
-# WARNING, Take note that Let's Encrypt have rate limiting: https://community.letsencrypt.org/t/quick-start-guide/1631
-#
-# Optional
-#
-# onDemand = true
-
-# CA server to use
-# Uncomment the line to run on the staging let's encrypt server
-# Leave comment to go to prod
-#
-# Optional
-#
-# caServer = "https://acme-staging.api.letsencrypt.org/directory"
-
-# Domains list
-# You can provide SANs (alternative domains) to each main domain
-# All domains must have A/AAAA records pointing to Traefik
-# WARNING, Take note that Let's Encrypt have rate limiting: https://community.letsencrypt.org/t/quick-start-guide/1631
-# Each domain & SANs will lead to a certificate request.
-#
-# [[acme.domains]]
-#   main = "local1.com"
-#   sans = ["test1.local1.com", "test2.local1.com"]
-# [[acme.domains]]
-#   main = "local2.com"
-#   sans = ["test1.local2.com", "test2x.local2.com"]
-# [[acme.domains]]
-#   main = "local3.com"
-# [[acme.domains]]
-#   main = "local4.com"
-# [[acme.domains]]
-#   main = "homelab.business"
-
-################################################################
-# Docker Swarm Mode Provider
-################################################################
-
-# Enable Docker Provider.
 [docker]
-
-# Docker server endpoint.
-# Can be a tcp or a unix socket endpoint.
-#
-# Required
-# Default: "unix:///var/run/docker.sock"
-#
 endpoint = "unix:///var/run/docker.sock"
-
-# Default base domain used for the frontend rules.
-# Can be overridden by setting the "traefik.domain" label on a services.
-#
-# Optional
-# Default: ""
-#
-# domain = "docker.localhost"
 domain = "homelab.business"
-
-# Enable watch docker changes.
-#
-# Optional
-# Default: true
-#
 watch = true
-
-# Use Docker Swarm Mode as data provider.
-#
-# Optional
-# Default: false
-#
 swarmMode = true
-
-# Define a default docker network to use for connections to all containers.
-# Can be overridden by the traefik.docker.network label.
-#
-# Optional
-#
 network = "traefik"
+exposedByDefault = false
 
-# Override default configuration template.
-# For advanced users :)
-#
-# Optional
-#
-# filename = "docker.tmpl"
-
-# Override template version
-# For advanced users :)
-#
-# Optional
-# - "1": previous template version (must be used only with older custom templates, see "filename")
-# - "2": current template version (must be used to force template version when "filename" is used)
-#
-# templateVersion = 2
-
-# Expose services by default in Traefik.
-#
-# Optional
-# Default: true
-#
-exposedByDefault = true
-
-# Enable docker TLS connection.
-#
-# Optional
-#
-#  [docker.tls]
-#  ca = "/etc/ssl/ca.crt"
-#  cert = "/etc/ssl/docker.crt"
-#  key = "/etc/ssl/docker.key"
-#  insecureSkipVerify = true
+[acme]
+email = "jahrik@gmail.com"
+storage = "/etc/traefik/acme.json"
+entryPoint = "https"
+onHostRule = true
+[acme.httpChallenge]
+entryPoint = "http"
