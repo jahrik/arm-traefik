@@ -1,5 +1,5 @@
 debug = false
-logLevel = "DEBUG"
+logLevel = "INFO"
 
 defaultEntryPoints = ["https","http"]
 
