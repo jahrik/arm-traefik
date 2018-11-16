@@ -1,9 +1,5 @@
 #!/usr/bin/env groovy
 
-// The Global API Key needs to be used, not the Origin CA Key
-env.CF_API_KEY = ''
-env.CF_API_EMAIL = ''
-
 // labels for Jenkins node types we will build on
 def labels = ['armv7l', 'aarch64']
 def builders = [:]
