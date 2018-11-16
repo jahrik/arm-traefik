@@ -29,3 +29,6 @@ entryPoint = "https"
 onHostRule = true
 [acme.httpChallenge]
 entryPoint = "http"
+[acme.dnsChallenge]
+  provider = "cloudflare"
+  delayBeforeCheck = 0
