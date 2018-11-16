@@ -21,33 +21,33 @@ logLevel = "INFO"
 # Docker and let's encrypt #
 ############################
 
-defaultEntryPoints = ["https","http"]
-
-[entryPoints]
-  [entryPoints.http]
-  address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
-  [entryPoints.https]
-  address = ":443"
-  [entryPoints.https.tls]
-
-[retry]
-
-[docker]
-endpoint = "unix:///var/run/docker.sock"
-domain = "homelab.business"
-watch = true
-network = "traefik"
-exposedByDefault = false
-
-[acme]
-email = "jahrik@gmail.com"
-storage = "/etc/traefik/acme.json"
-entryPoint = "https"
-onHostRule = true
-[acme.httpChallenge]
-entryPoint = "http"
+# defaultEntryPoints = ["https","http"]
+# 
+# [entryPoints]
+#   [entryPoints.http]
+#   address = ":80"
+#     [entryPoints.http.redirect]
+#     entryPoint = "https"
+#   [entryPoints.https]
+#   address = ":443"
+#   [entryPoints.https.tls]
+# 
+# [retry]
+# 
+# [docker]
+# endpoint = "unix:///var/run/docker.sock"
+# domain = "homelab.business"
+# watch = true
+# network = "traefik"
+# exposedByDefault = false
+# 
+# [acme]
+# email = "jahrik@gmail.com"
+# storage = "/etc/traefik/acme.json"
+# entryPoint = "https"
+# onHostRule = true
+# [acme.httpChallenge]
+# entryPoint = "http"
 
 ###############################
 # On host with http challenge #
@@ -83,33 +83,33 @@ entryPoint = "http"
 ##############
 # Cloudflare #
 ##############
-# defaultEntryPoints = ["https","http"]
-# 
-# [entryPoints]
-#   [entryPoints.http]
-#   address = ":80"
-#     [entryPoints.http.redirect]
-#     entryPoint = "https"
-#   [entryPoints.https]
-#   address = ":443"
-#     [entryPoints.https.tls]
-# 
-# [docker]
-# endpoint = "unix:///var/run/docker.sock"
-# # domain = "homelab.business"
-# watch = true
-# swarmMode = true
-# network = "traefik"
-# exposedByDefault = false
-# 
-# [acme]
-# email = "jahrik@gmail.com"
-# storage = "/etc/traefik/acme.json"
-# caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
-# entryPoint = "https"
-#   [acme.dnsChallenge]
-#   provider = "cloudflare"
-#   delayBeforeCheck = 0
-# 
-# [[acme.domains]]
-#   main = "*.homelab.business"
+defaultEntryPoints = ["https","http"]
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+    [entryPoints.https.tls]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+# domain = "homelab.business"
+watch = true
+swarmMode = true
+network = "traefik"
+exposedByDefault = false
+
+[acme]
+email = "jahrik@gmail.com"
+storage = "/etc/traefik/acme.json"
+caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+entryPoint = "https"
+  [acme.dnsChallenge]
+  provider = "cloudflare"
+  delayBeforeCheck = 0
+
+[[acme.domains]]
+  main = "*.homelab.business"
