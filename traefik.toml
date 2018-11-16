@@ -1,11 +1,11 @@
 ############
 # Defaults #
 ############
+debug = false
+logLevel = "INFO"
 [api]
   entryPoint = "traefik"
   dashboard = true
-debug = false
-logLevel = "INFO"
 
 ########
 # HTTP #
