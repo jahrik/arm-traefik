@@ -4,11 +4,14 @@ services:
 
   traefik:
     image: jahrik/arm-traefik:aarch64
-    command:
-      - "--api"
+    # command:
+      # - "--api"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/g1/traefik/acme.json:/etc/traefik/acme.json
+    environment:
+      CF_API_EMAIL: "{CF_API_EMAIL}"
+      CF_API_KEY: "${CF_API_KEY}"
     ports:
       - 8082:8080
       - 80:80
