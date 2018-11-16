@@ -27,6 +27,10 @@ email = "jahrik@gmail.com"
 storage = "/etc/traefik/acme.json"
 entryPoint = "https"
 onHostRule = true
+dnsProvider = "cloudflare"
+[[acme.domains]]
+  main = "homelab.business"
+  sans = ["www.homelab.business"]
 [acme.httpChallenge]
 entryPoint = "http"
 [acme.dnsChallenge]
