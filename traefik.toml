@@ -5,7 +5,7 @@
   entryPoint = "traefik"
   dashboard = true
 debug = false
-logLevel = "DEBUG"
+logLevel = "INFO"
 
 ########
 # HTTP #
