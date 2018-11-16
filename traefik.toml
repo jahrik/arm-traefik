@@ -29,8 +29,8 @@ entryPoint = "https"
 onHostRule = true
 dnsProvider = "cloudflare"
 [[acme.domains]]
-  main = "homelab.business"
-  sans = ["www.homelab.business"]
+  main = "*.homelab.business"
+  sans = ["homelab.business"]
 [acme.httpChallenge]
 entryPoint = "http"
 [acme.dnsChallenge]
