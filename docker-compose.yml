@@ -36,6 +36,8 @@ services:
       - 8083:2368
     networks:
       - traefik
+    volumes:
+      - /mnt/g1/ghost/content:/var/lib/ghost/content
     deploy:
       # replicas: 1
       labels:
