@@ -4,7 +4,7 @@ services:
 
   traefik:
     image: jahrik/arm-traefik:aarch64
-    command: --api
+    # command: --api
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/g1/traefik/acme.json:/etc/traefik/acme.json
@@ -17,14 +17,14 @@ services:
     networks:
       - traefik
     deploy:
-      mode: replicated
-      replicas: 1
-      labels:
-        traefik.enable: 0
-        traefik.port: 8080
-        traefik.backend: traefik
-        traefik.docker.network: traefik
-        traefik.frontend.rule: Host:traefik.homelab.business
+      # mode: replicated
+      # replicas: 1
+      # labels:
+        # traefik.enable: 0
+        # traefik.port: 8080
+        # traefik.backend: traefik
+        # traefik.docker.network: traefik
+        # traefik.frontend.rule: Host:traefik.homelab.business
       placement:
         constraints:
           - node.role == manager
@@ -37,13 +37,13 @@ services:
     networks:
       - traefik
     deploy:
-      replicas: 2
+      # replicas: 1
       labels:
         traefik.enable: 1
         traefik.port: 2368
         traefik.backend: ghost
         traefik.docker.network: traefik
-        traefik.frontend.rule: Host:www.homelab.business
+        traefik.frontend.rule: Host:blog.homelab.business
         traefik.backend.loadbalancer.swarm: 1
         traefik.backend.loadbalancer.method: drr
       placement:
