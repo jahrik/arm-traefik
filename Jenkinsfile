@@ -1,5 +1,8 @@
 #!/usr/bin/env groovy
 
+env.CF_ZONE = 'homelab.business'
+env.CF_SUBDOMAIN = ''
+
 // labels for Jenkins node types we will build on
 def labels = ['armv7l', 'aarch64']
 def builders = [:]
