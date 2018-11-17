@@ -3,6 +3,8 @@
 ############
 debug = false
 logLevel = "INFO"
+defaultEntryPoints = ["https","http"]
+
 [api]
   entryPoint = "traefik"
   dashboard = true
@@ -93,8 +95,6 @@ logLevel = "INFO"
 ##############
 # Cloudflare #
 ##############
-
-defaultEntryPoints = ["https","http"]
 
 [entryPoints]
   [entryPoints.http]
