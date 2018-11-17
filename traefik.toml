@@ -13,11 +13,11 @@ logLevel = "INFO"
 ########
 
 # defaultEntryPoints = ["http"]
-# 
+ 
 # [entryPoints]
 #   [entryPoints.http]
 #   address = ":80"
-# 
+ 
 # [docker]
 # endpoint = "unix:///var/run/docker.sock"
 # # domain = "homelab.business"
@@ -45,7 +45,7 @@ defaultEntryPoints = ["https","http"]
 
 [docker]
   endpoint = "unix:///var/run/docker.sock"
-  domain = "homelab.business"
+  # domain = "homelab.business"
   swarmMode = true
   watch = true
   network = "traefik"
