@@ -41,7 +41,8 @@ services:
           - node.labels.arch == aarch64
 
   cloudflare-ddns:
-    image: oznu/cloudflare-ddns:aarch64
+    # image: oznu/cloudflare-ddns:aarch64
+    image: oznu/cloudflare-ddns:armhf
     environment:
       EMAIL: "${CF_API_EMAIL}"
       API_KEY: "${CF_API_KEY}"
