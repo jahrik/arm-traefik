@@ -56,9 +56,9 @@ defaultEntryPoints = ["https","http"]
   storage = "/etc/traefik/acme.json"
   entryPoint = "https"
   onHostRule = true
-
-[acme.httpChallenge]
-  entryPoint = "http"
+  # onDemand = true # create certificate when container is created
+  [acme.httpChallenge]
+    entryPoint = "http"
 
 ###############################
 # On host with http challenge #
