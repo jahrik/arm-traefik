@@ -19,12 +19,12 @@ services:
     deploy:
       # mode: replicated
       # replicas: 1
-      # labels:
-        # traefik.enable: 0
-        # traefik.port: 8080
-        # traefik.backend: traefik
-        # traefik.docker.network: traefik
-        # traefik.frontend.rule: Host:traefik.homelab.business
+      labels:
+        traefik.enable: 1
+        traefik.port: 8080
+        traefik.backend: traefik
+        traefik.docker.network: traefik
+        traefik.frontend.rule: Host:traefik.homelab.business
       placement:
         constraints:
           - node.role == manager
