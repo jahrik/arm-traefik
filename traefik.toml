@@ -119,3 +119,8 @@ entryPoint = "https"
 
 [[acme.domains]]
   main = "*.homelab.business"
+
+[metrics]
+  [metrics.prometheus]
+    entryPoint = "traefik"
+    buckets = [0.1,0.3,1.2,5.0]
