@@ -30,13 +30,10 @@ logLevel = "INFO"
 # Docker and let's encrypt #
 ############################
 
-defaultEntryPoints = ["https","http"]
+# defaultEntryPoints = ["https","http"]
+defaultEntryPoints = ["https"]
 
 [entryPoints]
-  [entryPoints.http]
-  address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
   [entryPoints.https]
   address = ":443"
   [entryPoints.https.tls]
@@ -58,7 +55,7 @@ defaultEntryPoints = ["https","http"]
   onHostRule = true
   # onDemand = true # create certificate when container is created
   [acme.httpChallenge]
-    entryPoint = "http"
+    entryPoint = "https"
 
 ###############################
 # On host with http challenge #
