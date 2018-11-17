@@ -67,38 +67,6 @@ defaultEntryPoints = ["https","http"]
 #   [entryPoints.https]
 #   address = ":443"
 #     [entryPoints.https.tls]
-# 
-# [docker]
-# endpoint = "unix:///var/run/docker.sock"
-# domain = "homelab.business"
-# watch = true
-# swarmMode = true
-# network = "traefik"
-# exposedByDefault = false
-# 
-# [acme]
-# email = "jahrik@gmail.com"
-# storage = "/etc/traefik/acme.json"
-# onHostRule = true
-# caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
-# entryPoint = "https"
-#   [acme.httpChallenge]
-#   entryPoint = "http"
-# 
-# [[acme.domains]]
-#   main = "homelab.business"
-
-##############
-# Cloudflare #
-##############
-defaultEntryPoints = ["https","http"]
-
-# [entryPoints]
-#   [entryPoints.http]
-#   address = ":80"
-#   [entryPoints.https]
-#   address = ":443"
-#     [entryPoints.https.tls]
 
 [docker]
   endpoint = "unix:///var/run/docker.sock"
@@ -111,16 +79,52 @@ defaultEntryPoints = ["https","http"]
 [acme]
   email = "jahrik@gmail.com"
   storage = "/etc/traefik/acme.json"
+  onHostRule = true
   caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
   entryPoint = "https"
-
-[acme.dnsChallenge]
-  provider = "cloudflare"
-  delayBeforeCheck = 0
-
+    [acme.httpChallenge]
+    entryPoint = "http"
+ 
 [[acme.domains]]
-  main = "*.homelab.business"
+  main = "homelab.business"
 
+##############
+# Cloudflare #
+##############
+
+# defaultEntryPoints = ["https","http"]
+
+# [entryPoints]
+#   [entryPoints.http]
+#   address = ":80"
+#   [entryPoints.https]
+#   address = ":443"
+#     [entryPoints.https.tls]
+
+# [docker]
+#   endpoint = "unix:///var/run/docker.sock"
+#   domain = "homelab.business"
+#   watch = true
+#   swarmMode = true
+#   network = "traefik"
+#   exposedByDefault = false
+
+# [acme]
+#   email = "jahrik@gmail.com"
+#   storage = "/etc/traefik/acme.json"
+#   caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+#   entryPoint = "https"
+
+# [acme.dnsChallenge]
+#   provider = "cloudflare"
+#   delayBeforeCheck = 0
+
+# [[acme.domains]]
+#   main = "*.homelab.business"
+
+###########
+# Metrics #
+###########
 [metrics]
   [metrics.prometheus]
     entryPoint = "traefik"
