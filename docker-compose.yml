@@ -14,6 +14,7 @@ services:
     ports:
       - 8082:8080
       - 80:80
+      - 443:443
     networks:
       - traefik
     deploy:
@@ -25,15 +26,15 @@ services:
         traefik.backend: traefik
         traefik.docker.network: traefik
         traefik.frontend.rule: Host:traefik.homelab.business
-        traefik.frontend.headers.SSLRedirect: 1
-        traefik.frontend.headers.STSSeconds: 315360000
-        traefik.frontend.headers.browserXSSFilter: 1
-        traefik.frontend.headers.contentTypeNosniff: 1
-        traefik.frontend.headers.forceSTSHeader: 1
-        traefik.frontend.headers.SSLHost: homelab.business
-        traefik.frontend.headers.STSIncludeSubdomains: 1
-        traefik.frontend.headers.STSPreload: 1
-        traefik.frontend.headers.frameDeny: 1
+#         traefik.frontend.headers.SSLRedirect: 1
+#         traefik.frontend.headers.STSSeconds: 315360000
+#         traefik.frontend.headers.browserXSSFilter: 1
+#         traefik.frontend.headers.contentTypeNosniff: 1
+#         traefik.frontend.headers.forceSTSHeader: 1
+#         traefik.frontend.headers.SSLHost: homelab.business
+#         traefik.frontend.headers.STSIncludeSubdomains: 1
+#         traefik.frontend.headers.STSPreload: 1
+#         traefik.frontend.headers.frameDeny: 1
       placement:
         constraints:
           - node.role == manager
