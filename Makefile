@@ -11,6 +11,6 @@ push:
 
 deploy:
 	# @docker stack deploy -c docker-compose.yml traefik
-	@docker stack deploy --resolve-image=never -c docker-compose.yml traefik
+	@docker stack deploy --resolve-image=never --with-registry-auth -c docker-compose.yml traefik
 
 .PHONY: all build push deploy
