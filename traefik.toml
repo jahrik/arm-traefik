@@ -117,7 +117,7 @@ defaultEntryPoints = ["https","http"]
   email = "jahrik@gmail.com"
   storage = "/etc/traefik/acme.json"
   caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
-  entryPoint = "http"
+  entryPoint = "https"
 
 [acme.dnsChallenge]
   provider = "cloudflare"
