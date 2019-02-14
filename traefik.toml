@@ -42,6 +42,10 @@ defaultEntryPoints = ["https","http"]
 [[acme.domains]]
   main = "*.homelab.business"
   sans = ["homelab.business"]
+[[acme.domains]]
+  main = "jahrik.me"
+[[acme.domains]]
+  main = "toupeetouche.com"
 
 ###########
 # Metrics #
