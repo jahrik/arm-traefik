@@ -40,25 +40,25 @@ services:
           - node.role == manager
           - node.labels.arch == aarch64
 
-  cloudflare-ddns:
-    # image: oznu/cloudflare-ddns:aarch64
-    image: oznu/cloudflare-ddns:armhf
-    environment:
-      EMAIL: "${CF_API_EMAIL}"
-      API_KEY: "${CF_API_KEY}"
-      ZONE: "${CF_ZONE}"
-      SUBDOMAIN: "${CF_SUBDOMAIN}"
-    networks:
-      - traefik
-    deploy:
-      # mode: replicated
-      # replicas: 1
-      labels:
-        traefik.enable: 0
-      placement:
-        constraints:
-          - node.role == manager
-          - node.labels.arch == aarch64
+#   cloudflare-ddns:
+#     # image: oznu/cloudflare-ddns:aarch64
+#     image: oznu/cloudflare-ddns:armhf
+#     environment:
+#       EMAIL: "${CF_API_EMAIL}"
+#       API_KEY: "${CF_API_KEY}"
+#       ZONE: "${CF_ZONE}"
+#       SUBDOMAIN: "${CF_SUBDOMAIN}"
+#     networks:
+#       - traefik
+#     deploy:
+#       # mode: replicated
+#       # replicas: 1
+#       labels:
+#         traefik.enable: 0
+#       placement:
+#         constraints:
+#           - node.role == manager
+#           - node.labels.arch == aarch64
 
 networks:
   traefik:
