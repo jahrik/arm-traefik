@@ -1,8 +1,5 @@
 #!/usr/bin/env groovy
 
-env.CF_ZONE = 'homelab.business'
-env.CF_SUBDOMAIN = ''
-
 // labels for Jenkins node types we will build on
 def labels = ['armv7l', 'aarch64']
 def builders = [:]
@@ -31,7 +28,6 @@ for (x in labels) {
         throw error
 
       } finally {
-        // Any cleanup operations needed, whether we hit an error or not
       }
     }
   }
@@ -43,30 +39,26 @@ node('manager') {
 
   try {
     stage('scm') {
-      // Clean workspace
       deleteDir()
-      // Checkout the app at the given commit sha from the webhook
       checkout scm
     }
 
     stage('deploy') {
-      withCredentials([usernamePassword(credentialsId: 'cloudflare-api-key',
-        usernameVariable: 'CF_API_EMAIL',
-        passwordVariable: 'CF_API_KEY')]) {
-        echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
-        echo "CF_API_EMAIL = ${env.CF_API_EMAIL}"
-        // Docker deploy
-        sh "make deploy"
-      }
+      withCredentials([
+        usernamePassword(credentialsId: 'cloudflare-api-key',
+          usernameVariable: 'CF_API_EMAIL',
+          passwordVariable: 'CF_API_KEY'),
+        string(credentialsId: 'traefik-frontend-rule-traefik',
+          variable: 'TRAEFIK_FRONTEND_RULE'),]) {
+            echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            sh "make deploy"
+        }
     }
 
   } catch(error) {
     throw error
 
   } finally {
-    // Any cleanup operations needed, whether we hit an error or not
 
   }
 }
-
-          
