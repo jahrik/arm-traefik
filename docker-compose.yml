@@ -22,7 +22,7 @@ services:
         traefik.port: 8080
         traefik.backend: traefik
         traefik.docker.network: traefik
-        traefik.frontend.rule: "{TRAEFIK_FRONTEND_RULE}"
+        traefik.frontend.rule: "${TRAEFIK_FRONTEND_RULE}"
       placement:
         constraints:
           - node.role == manager
