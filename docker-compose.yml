@@ -25,7 +25,7 @@ services:
         traefik.frontend.rule: "${TRAEFIK_FRONTEND_RULE}"
       placement:
         constraints:
-          - node.role == manager
+          # - node.role == manager
           - node.labels.arch == aarch64
 
 #   cloudflare-ddns:
@@ -39,8 +39,6 @@ services:
 #     networks:
 #       - traefik
 #     deploy:
-#       # mode: replicated
-#       # replicas: 1
 #       labels:
 #         traefik.enable: 0
 #       placement:
