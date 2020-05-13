@@ -1,57 +1,50 @@
-############
-# Defaults #
-############
-debug = false
-logLevel = "INFO"
-defaultEntryPoints = ["https","http"]
-
-[api]
-  entryPoint = "traefik"
-  dashboard = true
-  # usersFile = /etc/traefik/.htpasswd
-
-##############
-# Cloudflare #
-##############
-
 [entryPoints]
   [entryPoints.http]
-  address = ":80"
-    [entryPoints.http.redirect]
-    entryPoint = "https"
+    address = ":80"
   [entryPoints.https]
-  address = ":443"
-  [entryPoints.https.tls]
+    address = ":443"
 
-[docker]
-  endpoint = "unix:///var/run/docker.sock"
-  domain = "homelab.business"
-  watch = true
-  swarmMode = true
-  network = "traefik"
-  exposedByDefault = false
+[providers]
+  [providers.docker]
+    watch = true
+    endpoint = "unix:///var/run/docker.sock"
+    exposedByDefault = false
+    swarmMode = true
+    network = "traefik"
 
-[acme]
-  email = "jahrik@gmail.com"
-  storage = "/etc/traefik/acme.json"
-  caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
-  entryPoint = "https"
-  [acme.dnsChallenge]
-    provider = "cloudflare"
-    delayBeforeCheck = 0
+[api]
+  insecure = true
+  dashboard = true
+  debug = true
 
-[[acme.domains]]
-  main = "*.homelab.business"
-  sans = ["homelab.business"]
-[[acme.domains]]
-  main = "jahrik.me"
-[[acme.domains]]
-  main = "toupeetouche.com"
+[certificatesResolvers]
+  [certificatesResolvers.cloudflare]
+    [certificatesResolvers.cloudflare.acme]
+      # Where to save my certificates
+      storage = "/letsencrypt/acme.json"    
+      # When you're good to go you can remove this line (it's the letsencrypt testing server)  
+      caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+      # I choose to use the DNS challenge and wait 10 seconds before check
+      [certificatesResolvers.cloudflare.acme.dnsChallenge]
+        provider = "cloudflare"
+        delayBeforeCheck = 10
 
-###########
-# Metrics #
-###########
-[metrics]
-  [metrics.prometheus]
-    entryPoint = "traefik"
-    buckets = [0.1,0.3,1.2,5.0]
+[http.routers]
+[http.routers.redirecttohttps]
+    entryPoints = ["http"]
+    # Definition of what to catch (this regex means all)
+    rule = "HostRegexp(`{host:.+}`)"
+    # The traffic that enter trought this entrypoint is send to this middleware
+    middlewares = ["httpsredirect"]
+    # Each middleware must have a service
+    service = "noop"
+
+[http.services]
+  [http.services.noop.loadBalancer]
+    [[http.services.noop.loadBalancer.servers]]
+      url = "http://homelab.business"
+
+[http.middlewares]
+  [http.middlewares.httpsredirect.redirectScheme]
+    scheme = "https"
+    permanent = true

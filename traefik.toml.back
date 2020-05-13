@@ -1,0 +1,57 @@
+############
+# Defaults #
+############
+debug = false
+logLevel = "INFO"
+defaultEntryPoints = ["https","http"]
+
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+  # usersFile = /etc/traefik/.htpasswd
+
+##############
+# Cloudflare #
+##############
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+
+[docker]
+  endpoint = "unix:///var/run/docker.sock"
+  domain = "homelab.business"
+  watch = true
+  swarmMode = true
+  network = "traefik"
+  exposedByDefault = false
+
+[acme]
+  email = "jahrik@gmail.com"
+  storage = "/etc/traefik/acme.json"
+  caServer = "https://acme-staging-v02.api.letsencrypt.org/directory"
+  entryPoint = "https"
+  [acme.dnsChallenge]
+    provider = "cloudflare"
+    delayBeforeCheck = 0
+
+[[acme.domains]]
+  main = "*.homelab.business"
+  sans = ["homelab.business"]
+[[acme.domains]]
+  main = "jahrik.me"
+[[acme.domains]]
+  main = "toupeetouche.com"
+
+###########
+# Metrics #
+###########
+[metrics]
+  [metrics.prometheus]
+    entryPoint = "traefik"
+    buckets = [0.1,0.3,1.2,5.0]
