@@ -49,7 +49,7 @@ node('manager') {
           usernameVariable: 'CF_API_EMAIL',
           passwordVariable: 'CF_API_KEY'),
         string(credentialsId: 'traefik-frontend-rule-traefik',
-          variable: 'TRAEFIK_FRONTEND_RULE'),]) {
+          variable: 'DOMAINNAME'),]) {
             echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             sh "make deploy"
         }

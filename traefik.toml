@@ -40,10 +40,10 @@
     # Each middleware must have a service
     service = "noop"
 
-[http.services]
-  [http.services.noop.loadBalancer]
-    [[http.services.noop.loadBalancer.servers]]
-      url = "http://homelab.business"
+# [http.services]
+#   [http.services.noop.loadBalancer]
+#     [[http.services.noop.loadBalancer.servers]]
+#       url = "http://homelab.business"
 
 [http.middlewares]
   [http.middlewares.httpsredirect.redirectScheme]
