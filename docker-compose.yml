@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.7'
 
 services:
 
@@ -6,7 +6,9 @@ services:
     image: jahrik/arm-traefik:aarch64
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      # - /mnt/g1/traefik/acme.json:/etc/traefik/acme.json
+      - /mnt/g1/traefik/acme.json:/etc/traefik/acme.json
+      - /mnt/g1/traefik/rules:/etc/traefik/rules
+      # - /mnt/g1/traefik/traefik.yml:/etc/traefik/traefik.yml
     environment:
       CF_API_EMAIL: "${CF_API_EMAIL}"
       CF_API_KEY: "${CF_API_KEY}"
@@ -26,7 +28,7 @@ services:
       - --entrypoints.https.forwardedHeaders.trustedIPs=173.245.48.0/20,103.21.244.0/22,103.22.200.0/22,103.31.4.0/22,141.101.64.0/18,108.162.192.0/18,190.93.240.0/20,188.114.96.0/20,197.234.240.0/22,198.41.128.0/17,162.158.0.0/15,104.16.0.0/12,172.64.0.0/13,131.0.72.0/22
       - --entryPoints.traefik.address=:8080
       - --api=true
-#      - --api.insecure=true
+      - --api.insecure=true
 #      - --serversTransport.insecureSkipVerify=true
       - --log=true
       - --log.level=DEBUG # (Default: error) DEBUG, INFO, WARN, ERROR, FATAL, PANIC
@@ -39,21 +41,35 @@ services:
       - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME`)
       - --providers.docker.exposedByDefault=false
       - --providers.docker.network=traefik
-      - --providers.docker.swarmMode=false
-      - --providers.file.directory=/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
-#      - --providers.file.filename=/path/to/file # Load dynamic configuration from a file.
+      - --providers.docker.swarmMode=true
+      - --providers.file.directory=/etc/traefik/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
+      # - --providers.file.filename=/etc/traefik/traefik.yml # Load dynamic configuration from a file.
       - --providers.file.watch=true # Only works on top level files in the rules folder
       - --certificatesResolvers.dns-cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
-      - --certificatesResolvers.dns-cloudflare.acme.email=$CLOUDFLARE_EMAIL
-      - --certificatesResolvers.dns-cloudflare.acme.storage=/acme.json
+      - --certificatesResolvers.dns-cloudflare.acme.email=$CF_API_EMAIL
+      - --certificatesResolvers.dns-cloudflare.acme.storage=/etc/traefik/acme.json
       - --certificatesResolvers.dns-cloudflare.acme.dnsChallenge.provider=cloudflare
+
     deploy:
       labels:
-        traefik.enable: 1
-        traefik.http.services.traefik.loadbalancer.server.port: 8080
-        traefik.backend: traefik
-        traefik.docker.network: traefik
-        traefik.frontend.rule: "${DOMAINNAME}"
+        - "traefik.enable=true"
+        - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+        # HTTP-to-HTTPS Redirect
+        - "traefik.http.routers.http-catchall.entrypoints=http"
+        - "traefik.http.routers.http-catchall.rule=HostRegexp(`{host:.+}`)"
+        - "traefik.http.routers.http-catchall.middlewares=redirect-to-https"
+        - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+        # HTTP Routers
+        - "traefik.http.routers.traefik-rtr.entrypoints=https"
+        - "traefik.http.routers.traefik-rtr.rule=Host(`traefik.$DOMAINNAME`)"
+        - "traefik.http.routers.traefik-rtr.tls=true"
+        # - "traefik.http.routers.traefik-rtr.tls.certresolver=dns-cloudflare" # Comment out this line after first run of traefik to force the use of wildcard certs
+        - "traefik.http.routers.traefik-rtr.tls.domains[0].main=$DOMAINNAME"
+        - "traefik.http.routers.traefik-rtr.tls.domains[0].sans=*.$DOMAINNAME"
+        # - "traefik.http.routers.traefik-rtr.tls.domains[1].main=$SECONDDOMAINNAME" # Pulls main cert for second domain
+        # - "traefik.http.routers.traefik-rtr.tls.domains[1].sans=*.$SECONDDOMAINNAME" # Pulls wildcard cert for second domain
+        # Services - API
+        - "traefik.http.routers.traefik-rtr.service=api@internal"
       placement:
         constraints:
           - node.role == manager
