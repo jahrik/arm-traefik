@@ -42,9 +42,9 @@ services:
       - --providers.docker.exposedByDefault=false
       - --providers.docker.network=traefik
       - --providers.docker.swarmMode=true
-      - --providers.file.directory=/etc/traefik/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
+      # - --providers.file.directory=/etc/traefik/rules # Load dynamic configuration from one or more .toml or .yml files in a directory.
       # - --providers.file.filename=/etc/traefik/traefik.yml # Load dynamic configuration from a file.
-      - --providers.file.watch=true # Only works on top level files in the rules folder
+      # - --providers.file.watch=true # Only works on top level files in the rules folder
       - --certificatesResolvers.dns-cloudflare.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory # LetsEncrypt Staging Server - uncomment when testing
       - --certificatesResolvers.dns-cloudflare.acme.email=$CF_API_EMAIL
       - --certificatesResolvers.dns-cloudflare.acme.storage=/etc/traefik/acme.json
