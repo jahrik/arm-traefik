@@ -1,4 +1,0 @@
-FROM arm64v8/traefik
-
-RUN mkdir -p /rules
-# COPY traefik.toml /etc/traefik/traefik.toml

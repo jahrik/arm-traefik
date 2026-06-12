@@ -1,13 +1,11 @@
-version: '3.7'
-
+---
 services:
   traefik:
-    image: jahrik/arm-traefik:aarch64
+    image: jahrik/arm-traefik:latest
     command:
       - --api=true
       - --api.dashboard=true
       - --api.insecure=true
-      # - --api.debug=$TRAEFIK_DEBUG
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --entrypoints.websecure.http.tls.domains[0].main=$DOMAINNAME
@@ -23,12 +21,11 @@ services:
       - --certificatesresolvers.cloudflare.acme.storage=/acme.json
       - --log=true
       - --log.level=INFO
-      - --providers.docker=true
-      - --providers.docker.swarmmode=true
-      - --providers.docker.network=traefik
-      - --providers.docker.exposedbydefault=false
-      - --providers.docker.endpoint=unix:///var/run/docker.sock
-      - --providers.docker.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME`)
+      - --providers.swarm=true
+      - --providers.swarm.network=traefik
+      - --providers.swarm.exposedbydefault=false
+      - --providers.swarm.endpoint=unix:///var/run/docker.sock
+      - --providers.swarm.defaultrule=Host(`{{ index .Labels "com.docker.compose.service" }}.$DOMAINNAME`)
 
     ports:
       - '8082:8080'
@@ -40,24 +37,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /mnt/g1/traefik/acme.json:/etc/traefik/acme.json
       - /mnt/g1/traefik/rules:/etc/traefik/rules
-      # - /mnt/g1/traefik/traefik.yml:/etc/traefik/traefik.yml
     environment:
       - CF_API_EMAIL=$CF_API_EMAIL
       - CF_API_KEY=$CF_API_KEY
       - DOMAINNAME=$DOMAINNAME
     deploy:
-#       labels:
-#         - traefik.enable=true
-#         - traefik.network=traefik
-#         - traefik.http.routers.traefik.service=api@internal
-#         - traefik.http.routers.traefik.rule=Host(`$TRAEFIK_DASHBOARD_HOST`)
-#         - traefik.http.routers.traefik.middlewares=traefik-auth
-#         - traefik.http.services.traefik.loadbalancer.server.port=8080
-#         - traefik.http.middlewares.traefik-auth.basicauth.users=$TRAEFIK_USER_PASS
       placement:
         constraints:
           - node.role == manager
-          - node.labels.arch == aarch64
 
 networks:
   traefik:
