@@ -5,9 +5,9 @@ Multi-arch Traefik image: pinned `FROM` over official `traefik` v3, deployed as 
 ## Commands
 
 ```bash
-make build                                  # build jahrik/arm-traefik:latest
+just build                                  # build jahrik/arm-traefik:latest
 docker run --rm jahrik/arm-traefik:latest version
-make deploy                                 # swarm stack deploy (stack: traefik)
+just deploy                                 # swarm stack deploy (stack: traefik)
 ```
 
 ## CI
