@@ -13,7 +13,7 @@ docker run --rm jahrik/arm-traefik:latest version
 ## Deploy (swarm)
 
 ```bash
-make deploy   # stack: traefik, creates the traefik overlay network
+just deploy   # stack: traefik, creates the traefik overlay network
 ```
 
 Needs `CF_API_EMAIL`/`CF_API_KEY`/`DOMAINNAME`/`TRAEFIK_ACME_CASERVER` env vars; acme.json and dynamic rules live under `/mnt/g1/traefik`.
@@ -21,8 +21,8 @@ Needs `CF_API_EMAIL`/`CF_API_KEY`/`DOMAINNAME`/`TRAEFIK_ACME_CASERVER` env vars;
 ## Build
 
 ```bash
-make build
-make push
+just build
+just push
 ```
 
 CI: PR builds + version/API checks; merge to main pushes multi-arch (amd64/arm64/armv6) to Docker Hub — upstream ships arm/v6, which also runs on Pi 3.
